@@ -97,13 +97,13 @@
 
 ! ======================= lecture des donnees =========================
 
-		open(unit=19, file='N.ech',status='unknown')
-		read(19,'(i3.3)') ech
-		close(19)
+        open(unit=19, file='N.ech',status='unknown')
+        read(19,'(i3.3)') ech
+        close(19)
 
       call lect_don
-	!
-	   open(15, file=nom_fich,form='formatted',position='append')
+    !
+       open(15, file=nom_fich,form='formatted',position='append')
 
 ! ========================== Initialisations ==========================
 
@@ -280,7 +280,7 @@
 ! .......................Boucle en temps.......................
 ! .............................................................
 
-	call cpu_time(TempsDeb)
+    call cpu_time(TempsDeb)
 
       Do nt = 1, npdt
 
@@ -513,7 +513,7 @@
 
           if( ndim == 1 ) then
 
-						call save_1D
+                        call save_1D
 
           elseif( ndim == 2 ) then
 
@@ -570,21 +570,21 @@
 
 ! .....accumulation du temps de simulation
 #IFDEF ACA
-			if( (temps+dt) > tps_deb ) then
-				dt = abs(tps_deb - temps)
-				dts2 = dt
-				m_ac = ceiling(0.5*dt/dt_ac)
-				dt_ac = 0.5 * dt/m_ac
-			end if
+            if( (temps+dt) > tps_deb ) then
+                dt = abs(tps_deb - temps)
+                dts2 = dt
+                m_ac = ceiling(0.5*dt/dt_ac)
+                dt_ac = 0.5 * dt/m_ac
+            end if
 #ENDIF
 !
 #IFDEF CAC
-			if( (temps+dt) > tps_deb ) then
-				dt = abs(tps_deb - temps)
-				dts2 = 0.5*dt
-				m_ac = ceiling(dt/dt_ac)
-				dt_ac = dt/m_ac
-			end if
+            if( (temps+dt) > tps_deb ) then
+                dt = abs(tps_deb - temps)
+                dts2 = 0.5*dt
+                m_ac = ceiling(dt/dt_ac)
+                dt_ac = dt/m_ac
+            end if
 #ENDIF
 
 #IF AC .OR. CA
@@ -760,22 +760,22 @@
 
 ! .....Début résolution acoustique
 
-			do i_sp = 1, m_ac
+            do i_sp = 1, m_ac
 
-				do l = 1, ndim
+                do l = 1, ndim
 
 ! .....choix de la direction
-				dir = strang(l,n_st)
+                dir = strang(l,n_st)
 
-				call flux_osmp7_acoustic(dir)
+                call flux_osmp7_acoustic(dir)
 
 ! .....Integration : Euler + Correction
 
-				call integration_euler_acc(dir,dt_ac)
+                call integration_euler_acc(dir,dt_ac)
 
 ! .....Transfert unp1 ==> u
 
-				call mise_a_jour
+                call mise_a_jour
 
 ! .....Codage par valeurs moyennes
 
@@ -819,28 +819,28 @@
               enddo
             enddo
 
-			end do
+            end do
 
-			end do
+            end do
 
 ! +++++++++++++++++++++++++++++++++++++++++++++++
 ! +++++calcul intermédiaire sur dt : convection
 ! +++++++++++++++++++++++++++++++++++++++++++++++
 
-		do l = 1, ndim
+        do l = 1, ndim
 
 ! .....choix de la direction
-		dir = strang(l,n_st)
+        dir = strang(l,n_st)
 
-				call flux_osmp7_conv(dir)
+                call flux_osmp7_conv(dir)
 
 ! .....Integration : Euler + Correction
 
-				call integration_euler(dir,dts2)
+                call integration_euler(dir,dts2)
 
 ! .....Transfert unp1 ==> u
 
-				call mise_a_jour
+                call mise_a_jour
 
 ! .....Codage par valeurs moyennes
 
@@ -882,30 +882,30 @@
               enddo
             enddo
 
-			end do
+            end do
 
 ! +++++++++++++++++++++++++++++++++++++++++++++
 ! +++++calcul intermédiaire sur dt/2 : acoustique
 ! +++++++++++++++++++++++++++++++++++++++++++++
 
-			do i_sp = 1, m_ac
+            do i_sp = 1, m_ac
 
-				do l = 1, ndim
+                do l = 1, ndim
 
-		! .....choix de la direction
-				dir = strang(l,n_st)
+        ! .....choix de la direction
+                dir = strang(l,n_st)
 
 ! .....Mise a jour et transformation en variables isentropiques de la solution (u0) pour la résolution acoustique
 
-				call flux_osmp7_acoustic(dir)
+                call flux_osmp7_acoustic(dir)
 
 ! .....Integration : Euler + Correction
 
-				call integration_euler_acc(dir,dt_ac)
+                call integration_euler_acc(dir,dt_ac)
 
 ! .....Transfert unp1 ==> u
 
-				call mise_a_jour
+                call mise_a_jour
 
 ! .....Codage par valeurs moyennes
 
@@ -949,9 +949,9 @@
               enddo
             enddo
 
-			end do
+            end do
 
-		enddo
+        enddo
 
 #ENDIF
 
@@ -1158,13 +1158,13 @@
 
 ! +++++ Flux visqueux -  si simulation N-S
 
-			if( Reynolds /= 0. ) then
+            if( Reynolds /= 0. ) then
 
 
-			do l = 1, ndim
+            do l = 1, ndim
 
 ! .....choix de la direction
-			dir = strang(l,n_st)
+            dir = strang(l,n_st)
 
 ! .....Mise a jour intermédiaire de la solution (u0) pour le prédicteur
 
@@ -1289,7 +1289,7 @@
                 enddo
               enddo
 
-				enddo
+                enddo
 
 ! .....Fin du traitement des flux visqueux
             endif
@@ -1334,21 +1334,21 @@
 
 ! +++++Ecriture et sauvegarde de la solution aux temps intermediaires
 
-				if( (temps >= tps_deb ) .or. &
-				(abs(temps-tps_deb) <= zero) ) then
+                if( (temps >= tps_deb ) .or. &
+                (abs(temps-tps_deb) <= zero) ) then
 
-					write(*,'(a,i7.7,a,1pe15.8,a,1pe15.8)') "sauvegarde : iteration n° ",n_ite," temps=",temps," dt=",dt
-					write(15,*)
-					write(15,*)"*****************************************************************"
-					write(15,*)'ecriture dans les fichiers ...'
-					write(15,'(a,e13.6,x,a,e13.6,x,a,i3.3)') "dt_ac = ",dt_ac,"dts2 = ",dts2,"m_ac = ", m_ac
-					write(15,'(a,x,e13.6)') "dt = ",dt
-					write(15,*)' iterations :', n_ite,' ; temps = ',temps
-					write(15,'(a,i6.6,x,a,f8.4,a)') '      Nbre feuilles : ', compteur_feuille, &
-					' Compression : ', &
-					100.*float(compteur_feuille)/float(nbre_maille), ' %'
-					write(15,*) "*****************************************************************"
-					write(15,*)
+                    write(*,'(a,i7.7,a,1pe15.8,a,1pe15.8)') "sauvegarde : iteration n° ",n_ite," temps=",temps," dt=",dt
+                    write(15,*)
+                    write(15,*)"*****************************************************************"
+                    write(15,*)'ecriture dans les fichiers ...'
+                    write(15,'(a,e13.6,x,a,e13.6,x,a,i3.3)') "dt_ac = ",dt_ac,"dts2 = ",dts2,"m_ac = ", m_ac
+                    write(15,'(a,x,e13.6)') "dt = ",dt
+                    write(15,*)' iterations :', n_ite,' ; temps = ',temps
+                    write(15,'(a,i6.6,x,a,f8.4,a)') '      Nbre feuilles : ', compteur_feuille, &
+                    ' Compression : ', &
+                    100.*float(compteur_feuille)/float(nbre_maille), ' %'
+                    write(15,*) "*****************************************************************"
+                    write(15,*)
 
 ! .....Allocation des tableaux de travail pour l'ecriture
             ALLOCATE( flag_coins(ijk_max), x_coins(ijk_max,ndim) )
@@ -1374,11 +1374,11 @@
 
             if( ndim == 1 ) then
 
-								call save_1D
+                                call save_1D
 
             elseif( ndim == 2 ) then
 
-								call save_VTK_2D
+                                call save_VTK_2D
 
             else
 
@@ -1407,7 +1407,7 @@
                 write(31, 800)  (ind_coins(l, m), m = 1, 2**ndim)
               enddo
 
-		    close(31)
+            close(31)
 
             endif
 
@@ -1452,7 +1452,7 @@
 69    continue
 
 
-		call cpu_time(TempsFin)
+        call cpu_time(TempsFin)
 
       write(15,*) 'Temps calcul total : ',TempsFin-TempsDeb
 
@@ -1476,13 +1476,13 @@
       endif
 
       close(10)
-		close(15)
+        close(15)
 
       open(2,file='N.ech',form='formatted',position='rewind')
-		write(2,'(i3.3)') ech+1
-		close(2)
+        write(2,'(i3.3)') ech+1
+        close(2)
 
-		print*,'Temps calcul total : ',TempsFin-TempsDeb
+        print*,'Temps calcul total : ',TempsFin-TempsDeb
 
 
 998   format(1x,i8,5(1x,1pe15.8))
