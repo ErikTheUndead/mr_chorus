@@ -91,7 +91,7 @@
 
       endif
 
-! *****Ouverture fichier pour ecriture des residus*****
+! *****Ouverture fichier pour ecriture des residus
 
       open(10, file='res_mrchorus.dat',form='formatted')
 
