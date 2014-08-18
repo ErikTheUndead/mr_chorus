@@ -5,3 +5,5 @@ WORK_DIR/
 *.x
 *.o
 *.out
+res_mrchorus.dat
+save_mrchorus.dat
