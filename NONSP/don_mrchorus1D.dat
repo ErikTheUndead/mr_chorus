@@ -1,0 +1,24 @@
+-1., 1., 1   :limites gauche et droite du domaine (lim_deb, lim_fin, racine)
+2, 2      :Conditions aux limites gauche et droite ==> -1, 0 , 1 ou 2
+1.      :densite a gauche
+1.      :vitesse horizontale a gauche
+1.      :pression a gauche
+0.5     :densite a droite
+0.      :vitesse horizontale a droite
+0.571       :pression a droite
+1.      :Longueur de reference (L_ref)
+F     :cle condition de T paroi (T = adiabatique, F = Temp. imposee)
+1.     :temperature de paroi
+0.1       :nombre de Mach
+0.      :nombre de Reynolds
+.72     :nombre de Prandtl
+0.5     :valeur du CFL
+10000000     :iterations en temps ==> nmax
+7     :valeur du niveau fin de grille ==> niv_max
+1     :valeur du niveau min de grille ==> niv_min
+1     :largeur du poly de reconstruction ==>  ordre = 2s+1
+0.       :seuil_harten.f ==> epsilon
+F     :cle de reprise, true = reprise/lecture de save_mrchorus.dat
+2.     :temps initial de sauvegarde
+2.       :incrementation en temps pour la sauvegarde
+19.999999      :temps final ==> arret calcul

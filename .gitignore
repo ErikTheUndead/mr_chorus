@@ -1,0 +1,7 @@
+*.vtk
+*~
+WORK_DIR/
+*.mod
+*.x
+*.o
+*.out
